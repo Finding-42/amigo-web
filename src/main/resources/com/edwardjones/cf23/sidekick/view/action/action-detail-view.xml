@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+    title="msg://actionDetailView.title"
+    focusComponent="form">
+  <data>
+    <instance id="actionDc"
+        class="com.edwardjones.cf23.sidekick.entity.Action">
+      <fetchPlan extends="_base">
+        <property name="situationAlert" fetchPlan="_instance_name"/>
+      </fetchPlan>
+      <loader/>
+    </instance>
+  </data>
+  <facets>
+    <dataLoadCoordinator auto="true"/>
+  </facets>
+  <actions>
+    <action id="saveAction" type="detail_saveClose"/>
+    <action id="closeAction" type="detail_close"/>
+  </actions>
+  <layout>
+    <formLayout id="form" dataContainer="actionDc">
+      <textField id="nameField" property="name"/>
+      <textField id="priorityField" property="priority"/>
+      <textArea id="descriptionField" height="9.5em" property="description" colspan="2"/>
+      <comboBox id="resultField" property="result"/>
+    </formLayout>
+    <hbox id="detailActions">
+      <button id="saveAndCloseBtn" action="saveAction"/>
+      <button id="closeBtn" action="closeAction"/>
+    </hbox>
+  </layout>
+</view>

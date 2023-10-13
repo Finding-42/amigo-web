@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+    xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+    title="msg://productListView.title"
+    focusComponent="productsDataGrid">
+  <data readOnly="true">
+    <collection id="productsDc"
+        class="com.edwardjones.cf23.sidekick.entity.Product">
+      <fetchPlan extends="_base">
+        <property name="portfolio" fetchPlan="_instance_name"/>
+        <property name="team" fetchPlan="_instance_name"/>
+      </fetchPlan>
+      <loader id="productsDl">
+        <query>
+          <![CDATA[select e from cf23_Product e]]>
+        </query>
+      </loader>
+    </collection>
+  </data>
+  <facets>
+    <dataLoadCoordinator auto="true"/>
+    <urlQueryParameters>
+      <genericFilter component="genericFilter"/>
+      <pagination component="pagination"/>
+    </urlQueryParameters>
+  </facets>
+  <actions>
+    <action id="selectAction" type="lookup_select"/>
+    <action id="discardAction" type="lookup_discard"/>
+  </actions>
+  <layout>
+    <genericFilter id="genericFilter"
+        dataLoader="productsDl">
+      <properties include=".*"/>
+    </genericFilter>
+    <hbox id="buttonsPanel" classNames="buttons-panel">
+      <button id="createBtn" action="productsDataGrid.create"/>
+      <button id="editBtn" action="productsDataGrid.edit"/>
+      <button id="readBtn" action="productsDataGrid.read"/>
+      <button id="removeBtn" action="productsDataGrid.remove"/>
+      <simplePagination id="pagination" dataLoader="productsDl"/>
+    </hbox>
+    <dataGrid id="productsDataGrid"
+        width="100%"
+        minHeight="20em"
+        dataContainer="productsDc" columnReorderingAllowed="true" detailsVisibleOnClick="true"
+        themeNames="no-border row-strips">
+      <actions>
+        <action id="create" type="list_create"/>
+        <action id="edit" type="list_edit"/>
+        <action id="read" type="list_read"/>
+        <action id="remove" type="list_remove"/>
+      </actions>
+      <columns>
+        <column property="name" autoWidth="true" resizable="true"/>
+        <column property="description" visible="false"/>
+        <column property="portfolio" resizable="true"/>
+        <column property="team" resizable="true"/>
+        <column property="ownerName" resizable="true"/>
+        <column property="ownerPorj" resizable="true"/>
+      </columns>
+    </dataGrid>
+    <hbox id="lookupActions" visible="false">
+      <button id="selectBtn" action="selectAction"/>
+      <button id="discardBtn" action="discardAction"/>
+    </hbox>
+  </layout>
+</view>

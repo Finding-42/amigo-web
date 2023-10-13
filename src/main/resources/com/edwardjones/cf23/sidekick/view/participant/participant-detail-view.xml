@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+    title="msg://participantDetailView.title"
+    focusComponent="form">
+  <data>
+    <instance id="participantDc"
+        class="com.edwardjones.cf23.sidekick.entity.Participant">
+      <fetchPlan extends="_base">
+        <property fetchPlan="_base" name="situationAlert"/>
+        <property fetchPlan="_base" name="team"></property>
+        <property fetchPlan="_base" name="pages"/>
+      </fetchPlan>
+      <loader/>
+      <collection id="pagesDc" property="pages"/>
+    </instance>
+  </data>
+  <facets>
+    <dataLoadCoordinator auto="true"/>
+  </facets>
+  <actions>
+    <action id="saveAction" type="detail_saveClose"/>
+    <action id="closeAction" type="detail_close"/>
+  </actions>
+  <layout expand="pagesDataGrid" margin="false">
+    <formLayout id="form" dataContainer="participantDc">
+      <textField id="firstNameField" property="firstName"/>
+      <textField id="lastNameField" property="lastName"/>
+      <textField id="preferredNameField" property="preferredName"/>
+      <textField id="porjField" property="porj"/>
+      <textField id="titleField" property="title"/>
+      <textField id="emailAddressField" property="emailAddress"/>
+      <textField id="phoneNoField" property="phoneNo"/>
+      <checkbox id="leaderField" property="leader"/>
+      <entityPicker id="situationAlertField"
+          property="situationAlert">
+        <actions>
+          <action id="entityClear" type="entity_clear"/>
+          <action id="entityLookup" type="entity_lookup"/>
+        </actions>
+      </entityPicker>
+      <entityPicker id="teamField" property="team">
+        <actions>
+          <action id="entityLookup" type="entity_lookup"/>
+          <action id="entityClear" type="entity_clear"/>
+        </actions>
+      </entityPicker>
+    </formLayout>
+    <hr/>
+    <h2 id="pageHeader" text="msg://pageHeader.text"/>
+    <hbox id="buttonsPanel" classNames="buttons-panel">
+      <button action="pagesDataGrid.create"/>
+      <button action="pagesDataGrid.edit"/>
+      <button action="pagesDataGrid.remove"/>
+    </hbox>
+    <dataGrid id="pagesDataGrid" dataContainer="pagesDc" minHeight="10em"
+        themeNames="no-border row-stripes" width="100%">
+      <actions>
+        <action id="create" type="list_create">
+          <properties>
+            <property name="openMode" value="DIALOG"/>
+          </properties>
+        </action>
+        <action id="edit" type="list_edit">
+          <properties>
+            <property name="openMode" value="DIALOG"/>
+          </properties>
+        </action>
+        <action id="remove" type="list_remove"/>
+      </actions>
+      <columns>
+        <column property="phoneNo" autoWidth="true" textAlign="CENTER"/>
+        <column property="message" autoWidth="true"/>
+        <column property="firstPagedOn" autoWidth="true" textAlign="CENTER"/>
+        <column property="lastPagedOn" autoWidth="true" textAlign="CENTER"/>
+        <column property="respondedOn" autoWidth="true" textAlign="CENTER"/>
+      </columns>
+    </dataGrid>
+    <hbox id="detailActions">
+      <button id="saveAndCloseBtn" action="saveAction"/>
+      <button id="closeBtn" action="closeAction"/>
+    </hbox>
+  </layout>
+</view>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+    xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+    title="msg://teamListView.title"
+    focusComponent="teamsDataGrid">
+  <data readOnly="true">
+    <collection id="teamsDc"
+        class="com.edwardjones.cf23.sidekick.entity.Team">
+      <fetchPlan extends="_base">
+        <property name="participants" fetchPlan="_base"/>
+      </fetchPlan>
+      <loader id="teamsDl">
+        <query>
+          <![CDATA[select e from cf23_Team e]]>
+        </query>
+      </loader>
+    </collection>
+  </data>
+  <facets>
+    <dataLoadCoordinator auto="true"/>
+    <urlQueryParameters>
+      <genericFilter component="genericFilter"/>
+      <pagination component="pagination"/>
+    </urlQueryParameters>
+  </facets>
+  <actions>
+    <action id="selectAction" type="lookup_select"/>
+    <action id="discardAction" type="lookup_discard"/>
+  </actions>
+  <layout>
+    <genericFilter id="genericFilter"
+        dataLoader="teamsDl">
+      <properties include=".*"/>
+    </genericFilter>
+    <hbox id="buttonsPanel" classNames="buttons-panel">
+      <button id="createBtn" action="teamsDataGrid.create"/>
+      <button id="editBtn" action="teamsDataGrid.edit"/>
+      <button id="readBtn" action="teamsDataGrid.read"/>
+      <button id="removeBtn" action="teamsDataGrid.remove"/>
+      <simplePagination id="pagination" dataLoader="teamsDl"/>
+    </hbox>
+    <dataGrid id="teamsDataGrid"
+        width="100%"
+        minHeight="20em"
+        dataContainer="teamsDc" themeNames="no-border row-stripes">
+      <actions>
+        <action id="create" type="list_create"/>
+        <action id="edit" type="list_edit"/>
+        <action id="read" type="list_read"/>
+        <action id="remove" type="list_remove"/>
+      </actions>
+      <columns>
+        <column property="name"/>
+        <column property="description"/>
+      </columns>
+    </dataGrid>
+    <hbox id="lookupActions" visible="false">
+      <button id="selectBtn" action="selectAction"/>
+      <button id="discardBtn" action="discardAction"/>
+    </hbox>
+  </layout>
+</view>

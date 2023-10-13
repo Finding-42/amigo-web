@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+    focusComponent="login"
+    title="msg://LoginView.title">
+  <layout>
+    <hbox id="loginLayout" width="100%" height="100%" expand="imageContainer">
+      <vbox height="100%" width="auto" justifyContent="CENTER" padding="false"
+          classNames="login-left-panel">
+        <loginForm id="login"
+            rememberMeVisible="true"
+            forgotPasswordButtonVisible="true">
+          <form title="msg://loginForm.headerTitle"
+              username="msg://loginForm.username"
+              password="msg://loginForm.password"
+              rememberMe="msg://loginForm.rememberMe"
+              submit="msg://loginForm.submit"
+              forgotPassword="msg://loginForm.forgotPassword"/>
+          <errorMessage title="msg://loginForm.errorTitle"
+              message="msg://loginForm.badCredentials"/>
+        </loginForm>
+      </vbox>
+      <hbox id="imageContainer" height="100%" alignItems="CENTER" justifyContent="CENTER"
+          classNames="login-right-panel">
+        <image id="brandImage" resource="/icons/amigo-logo.svg"
+            width="40%"/>
+      </hbox>
+    </hbox>
+  </layout>
+</view>

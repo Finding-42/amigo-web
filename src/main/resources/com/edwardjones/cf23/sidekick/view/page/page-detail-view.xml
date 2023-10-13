@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+    title="msg://pageDetailView.title"
+    focusComponent="form">
+  <data>
+    <instance id="pageDc"
+        class="com.edwardjones.cf23.sidekick.entity.Page">
+      <fetchPlan extends="_base">
+        <property name="participant" fetchPlan="_instance_name"/>
+      </fetchPlan>
+      <loader/>
+    </instance>
+  </data>
+  <facets>
+    <dataLoadCoordinator auto="true"/>
+  </facets>
+  <actions>
+    <action id="saveAction" type="detail_saveClose"/>
+    <action id="closeAction" type="detail_close"/>
+  </actions>
+  <layout margin="false" expand="form">
+    <formLayout id="form" dataContainer="pageDc">
+      <textField id="phoneNoField" property="phoneNo" clearButtonVisible="true"/>
+      <dateTimePicker id="firstPagedOnField" property="firstPagedOn" datatype="localDateTime"
+      />
+      <dateTimePicker id="lastPagedOnField" property="lastPagedOn" datatype="localDateTime"/>
+      <dateTimePicker id="respondedOnField" property="respondedOn" datatype="localDateTime"/>
+      <textArea id="messageField" height="9.5em" property="message" colspan="2"
+          clearButtonVisible="true"/>
+    </formLayout>
+    <hbox id="detailActions">
+      <button id="saveAndCloseBtn" action="saveAction"/>
+      <button id="closeBtn" action="closeAction"/>
+    </hbox>
+  </layout>
+</view>

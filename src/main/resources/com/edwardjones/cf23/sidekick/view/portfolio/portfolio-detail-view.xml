@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+    title="msg://portfolioDetailView.title"
+    focusComponent="form">
+  <data>
+    <instance id="portfolioDc"
+        class="com.edwardjones.cf23.sidekick.entity.Portfolio">
+      <fetchPlan extends="_base">
+        <property name="products" fetchPlan="_base">
+          <property name="team" fetchPlan="_base"/>
+        </property>
+      </fetchPlan>
+      <loader/>
+      <collection id="productsDc" property="products"/>
+    </instance>
+  </data>
+  <facets>
+    <dataLoadCoordinator auto="true"/>
+  </facets>
+  <actions>
+    <action id="saveAction" type="detail_saveClose"/>
+    <action id="closeAction" type="detail_close"/>
+  </actions>
+  <layout>
+    <formLayout id="form" dataContainer="portfolioDc">
+      <textField id="nameField" property="name"/>
+    </formLayout>
+    <hr/>
+    <h1 id="productHeading" text="msg://productHeading.text"/>
+    <hbox id="buttonsPanel" classNames="buttons-panel">
+      <button action="productsDataGrid.create"/>
+      <button action="productsDataGrid.edit"/>
+      <button action="productsDataGrid.remove"/>
+    </hbox>
+    <dataGrid id="productsDataGrid" dataContainer="productsDc" width="100%" minHeight="20em"
+        themeNames="row-stripes, no-border">
+      <actions>
+        <action id="create" type="list_create">
+          <properties>
+            <property name="openMode" value="DIALOG"/>
+          </properties>
+        </action>
+        <action id="edit" type="list_edit">
+          <properties>
+            <property name="openMode" value="DIALOG"/>
+          </properties>
+        </action>
+        <action id="remove" type="list_remove"/>
+      </actions>
+      <columns>
+        <column property="name"/>
+        <column property="description" visible="false"/>
+        <column property="ownerName"/>
+        <column property="ownerPorj"/>
+        <column property="team"/>
+      </columns>
+    </dataGrid>
+    <hbox id="detailActions">
+      <button id="saveAndCloseBtn" action="saveAction"/>
+      <button id="closeBtn" action="closeAction"/>
+    </hbox>
+  </layout>
+</view>

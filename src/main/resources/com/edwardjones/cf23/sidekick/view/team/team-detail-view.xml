@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+    title="msg://teamDetailView.title"
+    focusComponent="form">
+  <data>
+    <instance id="teamDc"
+        class="com.edwardjones.cf23.sidekick.entity.Team">
+      <fetchPlan extends="_base">
+        <property name="participants" fetchPlan="_base">
+          <property name="situationAlert" fetchPlan="_instance_name"/>
+          <property name="team" fetchPlan="_instance_name"/>
+        </property>
+      </fetchPlan>
+      <loader/>
+      <collection id="participantsDc" property="participants"/>
+    </instance>
+  </data>
+  <facets>
+    <dataLoadCoordinator auto="true"/>
+  </facets>
+  <actions>
+    <action id="saveAction" type="detail_saveClose"/>
+    <action id="closeAction" type="detail_close"/>
+  </actions>
+  <layout>
+    <formLayout id="form" dataContainer="teamDc">
+      <textField id="nameField" property="name"/>
+      <textArea id="descriptionField" height="9.5em" property="description" colspan="2"/>
+    </formLayout>
+    <hbox id="buttonsPanel" classNames="buttons-panel">
+      <button action="participantsDataGrid.create"/>
+      <button action="participantsDataGrid.edit"/>
+      <button action="participantsDataGrid.remove"/>
+    </hbox>
+    <dataGrid id="participantsDataGrid" dataContainer="participantsDc" width="100%"
+        minHeight="20em" themeNames="no-border row-stripes">
+      <actions>
+        <action id="create" type="list_create">
+          <properties>
+            <property name="openMode" value="DIALOG"/>
+          </properties>
+        </action>
+        <action id="edit" type="list_edit">
+          <properties>
+            <property name="openMode" value="DIALOG"/>
+          </properties>
+        </action>
+        <action id="remove" type="list_remove"/>
+      </actions>
+      <columns>
+        <column property="firstName"/>
+        <column property="lastName"/>
+        <column property="preferredName"/>
+        <column property="porj"/>
+        <column property="title"/>
+        <column property="emailAddress"/>
+        <column property="phoneNo"/>
+        <column property="leader"/>
+        <column property="team"/>
+      </columns>
+    </dataGrid>
+    <hbox id="detailActions">
+      <button id="saveAndCloseBtn" action="saveAction"/>
+      <button id="closeBtn" action="closeAction"/>
+    </hbox>
+  </layout>
+</view>

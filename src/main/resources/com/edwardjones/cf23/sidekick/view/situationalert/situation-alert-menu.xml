@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+    xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+    title="msg://situationAlertMenu.title"
+    focusComponent="situationAlertsDataGrid">
+  <data readOnly="true">
+    <collection id="situationAlertsDc"
+        class="com.edwardjones.cf23.sidekick.entity.SituationAlert">
+      <fetchPlan extends="_base">
+        <property name="product" fetchPlan="_instance_name"/>
+      </fetchPlan>
+      <loader id="situationAlertsDl">
+        <query>
+          <![CDATA[select e from cf23_SituationAlert e]]>
+        </query>
+      </loader>
+    </collection>
+  </data>
+  <facets>
+    <dataLoadCoordinator auto="true"/>
+    <urlQueryParameters>
+      <genericFilter component="genericFilter"/>
+      <pagination component="pagination"/>
+    </urlQueryParameters>
+  </facets>
+  <actions>
+    <action id="selectAction" type="lookup_select"/>
+    <action id="discardAction" type="lookup_discard"/>
+  </actions>
+  <layout expand="situationAlertsDataGrid" justifyContent="CENTER">
+    <h1 id="menuHeading" text="msg://menuHeading.text" classNames="center-text"/>
+    <genericFilter id="genericFilter"
+        dataLoader="situationAlertsDl" opened="false">
+      <properties include=".*"/>
+    </genericFilter>
+    <hbox id="buttonsPanel" classNames="buttons-panel">
+      <button id="readBtn" action="situationAlertsDataGrid.read"/>
+      <simplePagination id="pagination" dataLoader="situationAlertsDl"/>
+    </hbox>
+    <dataGrid id="situationAlertsDataGrid"
+        width="100%"
+        minHeight="20em"
+        dataContainer="situationAlertsDc" pageSize="10" themeNames="row-stripes, no-border, column-dividers"
+        columnReorderingAllowed="true" detailsVisibleOnClick="true">
+      <actions>
+        <action id="read" type="list_read"/>
+      </actions>
+      <columns>
+        <column property="incidentNo" autoWidth="true" textAlign="CENTER"/>
+        <column property="serviceLevel" autoWidth="true" textAlign="CENTER"/>
+        <column property="status" autoWidth="true" textAlign="CENTER"/>
+        <column property="name" autoWidth="true"/>
+        <column property="product" autoWidth="true"/>
+        <column property="description" visible="false" autoWidth="true"/>
+        <column property="problem" visible="false" autoWidth="true"/>
+        <column property="remedy" visible="false" autoWidth="true"/>
+        <column property="cause" visible="false" autoWidth="true"/>
+        <column property="reportedBy" autoWidth="true"/>
+        <column property="reportedOn" autoWidth="true"/>
+        <column property="bridgePhoneNo" visible="false" autoWidth="true"/>
+      </columns>
+    </dataGrid>
+    <hbox id="lookupActions" visible="false">
+      <button id="selectBtn" action="selectAction"/>
+      <button id="discardBtn" action="discardAction"/>
+    </hbox>
+  </layout>
+</view>

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+    title="msg://situationAlertDetailView.title"
+    focusComponent="form">
+  <data>
+    <instance id="situationAlertDc"
+        class="com.edwardjones.cf23.sidekick.entity.SituationAlert">
+      <fetchPlan extends="_base">
+        <property fetchPlan="_instance_name" name="product"/>
+        <property fetchPlan="_base" name="participants">
+          <property fetchPlan="_base" name="situationAlert"/>
+          <property fetchPlan="_instance_name" name="team"/>
+          <property fetchPlan="_base" name="pages"/>
+        </property>
+        <property fetchPlan="_base" name="changes">
+          <property fetchPlan="_instance_name" name="situationAlert"/>
+        </property>
+        <property fetchPlan="_base" name="actions">
+          <property fetchPlan="_instance_name" name="situationAlert"/>
+        </property>
+        <property fetchPlan="_base" name="transcript"/>
+      </fetchPlan>
+      <loader/>
+      <collection id="participantsDc" property="participants"/>
+      <collection id="changesDc" property="changes"/>
+      <collection id="actionsDc" property="actions"/>
+    </instance>
+  </data>
+  <facets>
+    <dataLoadCoordinator auto="true"/>
+  </facets>
+  <actions>
+    <action id="saveAction" type="detail_saveClose"/>
+    <action id="closeAction" type="detail_close"/>
+  </actions>
+  <layout expand="tabSheet" width="100%">
+    <tabSheet id="tabSheet" height="100%" width="100%">
+      <tab id="mainTab" label="msg://mainTab.label" enabled="true">
+        <vbox height="100%">
+          <formLayout id="form" dataContainer="situationAlertDc">
+            <textField id="nameField" property="name" clearButtonVisible="true" colspan="2"/>
+            <textField id="incidentNoField" property="incidentNo"/>
+            <entityPicker id="productField" property="product">
+              <actions>
+                <action id="entityLookup" type="entity_lookup"/>
+                <action id="entityClear" type="entity_clear"/>
+              </actions>
+            </entityPicker>
+            <comboBox id="statusField" property="status"/>
+            <textField id="bridgePhoneNoField" property="bridgePhoneNo"/>
+            <textField id="serviceLevelField" property="serviceLevel"/>
+            <textField id="reportedByField" property="reportedBy"/>
+            <dateTimePicker id="reportedOnField" property="reportedOn"/>
+            <tabSheet width="100%" colspan="2">
+              <tab id="descriptionTab" label="msg://descriptionTab.label">
+                <vbox width="100%">
+                  <textArea id="descriptionField" height="20em" property="description" colspan="2"
+                      width="100%"/>
+                </vbox>
+              </tab>
+              <tab id="problemTab" label="msg://problemTab.label">
+                <vbox>
+                  <textArea id="problemField" height="20em" property="problem" colspan="2"
+                      width="100%"/>
+                </vbox>
+              </tab>
+              <tab id="remedyTab" label="msg://remedyTab.label">
+                <vbox>
+                  <textArea id="remedyField" height="20em" property="remedy" colspan="2"
+                      width="100%"/>
+                </vbox>
+              </tab>
+              <tab id="causeTab" label="msg://causeTab.label">
+                <vbox>
+                  <textArea id="causeField" height="20em" property="cause" colspan="2"
+                      clearButtonVisible="true" width="100%"/>
+                </vbox>
+              </tab>
+            </tabSheet>
+          </formLayout>
+        </vbox>
+      </tab>
+      <tab id="participantsTab" enabled="true" label="msg://participantsTab3.label">
+        <vbox>
+          <hbox id="participantsButtonPanel" classNames="buttons-panel">
+            <button action="participantsDataGrid.create"/>
+            <button action="participantsDataGrid.edit"/>
+            <button action="participantsDataGrid.remove"/>
+          </hbox>
+          <dataGrid id="participantsDataGrid" dataContainer="participantsDc" width="100%"
+              minHeight="20em" detailsVisibleOnClick="true" themeNames="no-border row-stripes">
+            <actions>
+              <action id="create" type="list_create">
+                <properties>
+                  <property name="openMode" value="DIALOG"/>
+                </properties>
+              </action>
+              <action id="edit" type="list_edit">
+                <properties>
+                  <property name="openMode" value="DIALOG"/>
+                </properties>
+              </action>
+              <action id="remove" type="list_remove"/>
+            </actions>
+            <columns>
+              <column property="preferredName" autoWidth="true"/>
+              <column property="firstName" visible="false" autoWidth="true"/>
+              <column property="lastName" visible="false" autoWidth="true"/>
+              <column property="porj" autoWidth="true"/>
+              <column property="title" autoWidth="true"/>
+              <column property="emailAddress" autoWidth="true"/>
+              <column property="phoneNo" autoWidth="true"/>
+              <column property="leader" autoWidth="true" textAlign="CENTER"/>
+            </columns>
+          </dataGrid>
+        </vbox>
+      </tab>
+      <tab id="transcriptionTab" enabled="true" label="msg://transcriptionTab1.label">
+        <vbox height="100%">
+          <split id="split" height="100%" width="100%" orientation="VERTICAL">
+            <vbox height="100%" width="100%">
+              <textArea dataContainer="situationAlertDc" property="transcript.summary"
+                  width="100%" height="100%" id="transcriptSummary"
+                  label="msg://transcriptSummary.label"/>
+            </vbox>
+            <vbox height="100%" width="100%">
+              <textArea dataContainer="situationAlertDc" property="transcript.text" width="100%"
+                  height="100%" id="transcriptText"
+                  label="msg://transcriptText.label"/>
+            </vbox>
+          </split>
+        </vbox>
+      </tab>
+      <tab id="changesTab" enabled="true" label="msg://changesTab1.label"
+          themeNames="no-border row-stripes">
+        <vbox>
+          <hbox id="changesButtonPanel" classNames="buttons-panel">
+            <button action="changesDataGrid.create"/>
+            <button action="changesDataGrid.edit"/>
+            <button action="changesDataGrid.remove"/>
+          </hbox>
+          <dataGrid id="changesDataGrid" dataContainer="changesDc" width="100%" minHeight="20em"
+              themeNames="no-border row-stripes">
+            <actions>
+              <action id="create" type="list_create">
+                <properties>
+                  <property name="openMode" value="DIALOG"/>
+                </properties>
+              </action>
+              <action id="edit" type="list_edit">
+                <properties>
+                  <property name="openMode" value="DIALOG"/>
+                </properties>
+              </action>
+              <action id="remove" type="list_remove"/>
+            </actions>
+            <columns>
+              <column property="changeNo" autoWidth="true"/>
+              <column property="snowChangeLink" autoWidth="true"/>
+              <column property="summary" visible="false" autoWidth="true"/>
+              <column property="implementedOn" autoWidth="true"/>
+            </columns>
+          </dataGrid>
+        </vbox>
+      </tab>
+      <tab id="actionsTab" enabled="true" label="msg://actionsTab1.label"
+          themeNames="no-border row-stripes">
+        <vbox>
+          <hbox id="actionsButtonPanel" classNames="buttons-panel">
+            <button action="actionsDataGrid.create"/>
+            <button action="actionsDataGrid.edit"/>
+            <button action="actionsDataGrid.remove"/>
+          </hbox>
+          <dataGrid id="actionsDataGrid" dataContainer="actionsDc" width="100%" minHeight="20em"
+              themeNames="no-border row-stripes">
+            <actions>
+              <action id="create" type="list_create">
+                <properties>
+                  <property name="openMode" value="DIALOG"/>
+                </properties>
+              </action>
+              <action id="edit" type="list_edit">
+                <properties>
+                  <property name="openMode" value="DIALOG"/>
+                </properties>
+              </action>
+              <action id="remove" type="list_remove"/>
+            </actions>
+            <columns>
+              <column property="name" autoWidth="true"/>
+              <column property="description" autoWidth="true" visible="false"/>
+              <column property="priority" autoWidth="true" textAlign="CENTER"/>
+              <column property="result" autoWidth="true" textAlign="CENTER"/>
+            </columns>
+          </dataGrid>
+        </vbox>
+      </tab>
+    </tabSheet>
+    <hbox id="detailActions">
+      <button id="saveAndCloseBtn" action="saveAction"/>
+      <button id="closeBtn" action="closeAction"/>
+    </hbox>
+  </layout>
+</view>

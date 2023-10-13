@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+    title="msg://situationAlertMenuDetailView.title"
+    focusComponent="form">
+  <data>
+    <instance id="situationAlertDc"
+        class="com.edwardjones.cf23.sidekick.entity.SituationAlert">
+      <fetchPlan extends="_base">
+        <property fetchPlan="_local" name="product"/>
+        <property fetchPlan="_base" name="participants">
+          <property name="team" fetchPlan="_instance_name"/>
+        </property>
+        <property fetchPlan="_base" name="changes"/>
+        <property fetchPlan="_base" name="actions"/>
+        <property fetchPlan="_base" name="transcript"/>
+      </fetchPlan>
+      <loader/>
+      <collection id="participantsDc" property="participants"/>
+      <collection id="changesDc" property="changes"/>
+      <collection id="actionsDc" property="actions"/>
+    </instance>
+  </data>
+  <facets>
+    <dataLoadCoordinator auto="true"/>
+  </facets>
+  <actions>
+    <action id="saveAction" type="detail_saveClose"/>
+    <action id="closeAction" type="detail_close"/>
+  </actions>
+  <layout>
+    <vbox height="100%" id="bodyWrapper">
+      <hbox width="100%" id="topBox">
+        <vbox>
+          <hbox>
+          </hbox>
+          <hbox>
+            <button id="joinMeeting" text="msg://joinMeeting.text" themeNames="primary"/>
+            <button id="transcribeButton" text="msg://transcribeButton.text" themeNames="primary"/>
+          </hbox>
+        </vbox>
+      </hbox>
+      <hbox width="100%" height="100%" id="middleBox">
+        <vbox width="20%" height="100%">
+          <split orientation="VERTICAL" height="100%" width="100%">
+            <vbox height="100%" width="100%">
+              <h3 id="participantHead" text="msg://participantHead.text"/>
+              <dataGrid width="100%" id="participantsDataGrid" dataContainer="participantsDc"
+                  themeNames="no-border, compact, row-stripes" height="100%">
+                <actions>
+                  <action id="read" type="list_read">
+                    <properties>
+                      <property name="openMode" value="DIALOG"/>
+                    </properties>
+                  </action>
+                </actions>
+                <columns>
+                  <column property="preferredName" autoWidth="true"/>
+                  <column property="team" autoWidth="true"/>
+                  <column property="leader" autoWidth="true" textAlign="CENTER"/>
+                </columns>
+              </dataGrid>
+            </vbox>
+            <vbox height="100%" width="100%">
+              <h3 id="changeHead" text="msg://changeHead.text"/>
+              <dataGrid width="100%" id="changesDataGrid" dataContainer="changesDc"
+                  themeNames="no-border, compact, row-stripes">
+                <actions/>
+                <columns>
+                  <column property="changeNo" autoWidth="true"/>
+                  <column property="implementedOn" autoWidth="true"/>
+                </columns>
+              </dataGrid>
+            </vbox>
+          </split>
+        </vbox>
+        <vbox width="60%" height="100%">
+          <split width="100%" height="100%" orientation="VERTICAL">
+            <vbox height="100%">
+              <h3 id="summaryHead" text="msg://summaryHead.text"/>
+              <textArea width="100%" dataContainer="situationAlertDc"
+                  property="transcript.summary" height="100%"/>
+            </vbox>
+            <vbox height="100%">
+              <h3 id="transcriptHead" text="msg://transcriptHead.text"/>
+              <textArea dataContainer="situationAlertDc" property="transcript.text" height="100%"
+                  width="100%"/>
+            </vbox>
+          </split>
+        </vbox>
+        <vbox width="20%" height="100%">
+          <h3 id="actionsHead" text="msg://actionsHead.text"/>
+          <dataGrid width="100%" id="actionsDataGrid" dataContainer="actionsDc"
+              themeNames="no-border, compact, row-stripes">
+            <actions/>
+            <columns>
+              <column property="name" autoWidth="true"/>
+              <column property="priority" autoWidth="true" textAlign="CENTER"/>
+              <column property="result" autoWidth="true" textAlign="CENTER"/>
+            </columns>
+          </dataGrid>
+        </vbox>
+      </hbox>
+    </vbox>
+    <hbox id="detailActions">
+      <button id="saveAndCloseBtn" action="saveAction"/>
+      <button id="closeBtn" action="closeAction"/>
+    </hbox>
+  </layout>
+</view>

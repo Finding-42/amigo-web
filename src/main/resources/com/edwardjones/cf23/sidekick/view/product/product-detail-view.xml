@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+    title="msg://productDetailView.title"
+    focusComponent="form">
+  <data>
+    <instance id="productDc"
+        class="com.edwardjones.cf23.sidekick.entity.Product">
+      <fetchPlan extends="_base">
+        <property name="portfolio" fetchPlan="_instance_name"/>
+        <property name="team" fetchPlan="_instance_name"/>
+      </fetchPlan>
+      <loader/>
+    </instance>
+  </data>
+  <facets>
+    <dataLoadCoordinator auto="true"/>
+  </facets>
+  <actions>
+    <action id="saveAction" type="detail_saveClose"/>
+    <action id="closeAction" type="detail_close"/>
+  </actions>
+  <layout>
+    <formLayout id="form" dataContainer="productDc">
+      <textField id="nameField" property="name"/>
+      <textArea id="descriptionField" height="9.5em" property="description" colspan="2"/>
+      <textField id="ownerNameField" property="ownerName"/>
+      <textField id="ownerPorjField" property="ownerPorj"/>
+      <entityPicker id="portfolioField" property="portfolio">
+        <actions>
+          <action id="entityLookup" type="entity_lookup"/>
+          <action id="entityClear" type="entity_clear"/>
+        </actions>
+      </entityPicker>
+      <entityPicker id="teamField" property="team">
+        <actions>
+          <action id="entityLookup" type="entity_lookup"/>
+          <action id="entityClear" type="entity_clear"/>
+        </actions>
+      </entityPicker>
+    </formLayout>
+    <hbox id="detailActions">
+      <button id="saveAndCloseBtn" action="saveAction"/>
+      <button id="closeBtn" action="closeAction"/>
+    </hbox>
+  </layout>
+</view>
